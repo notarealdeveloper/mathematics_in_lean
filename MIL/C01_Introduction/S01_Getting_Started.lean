@@ -109,6 +109,7 @@ example : ∀ m n : Nat, Even n → Even (m * n) := by
 
 
 -- Kevin Buzzard's example, rewritten for Lean 4
+-- From: https://www.youtube.com/watch?v=POHVMMG7pqE&ab_channel=XenaProject
 example (p q r : Prop) : ((p ∨ q) → r) ↔ ((p → r) ∧ (q → r)) := by
   constructor
   . intro h
