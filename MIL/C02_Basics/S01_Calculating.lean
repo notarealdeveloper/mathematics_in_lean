@@ -114,15 +114,6 @@ section
       _ = a * a + 2 * (a * b) + b * b := by
         rw [mul_comm b a, ← two_mul]
 
-  example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
-    calc
-      (a + b) * (a + b) = a * a + b * a + (a * b + b * b) := by
-        sorry
-      _ = a * a + (b * a + a * b) + b * b := by
-        sorry
-      _ = a * a + 2 * (a * b) + b * b := by
-        sorry
-
 end
 
 -- I added this one
