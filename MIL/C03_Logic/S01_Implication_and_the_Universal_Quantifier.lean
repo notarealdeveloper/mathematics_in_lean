@@ -1,14 +1,40 @@
 import MIL.Common
+import Mathlib
+import Mathlib.Tactic                   -- gives `aesop`, `linarith`, …
 import Mathlib.Data.Real.Basic
+import Mathlib.Algebra.Order.Ring.Abs   -- abs_mul
 
 namespace C03S01
 
-#check ∀ x : ℝ, 0 ≤ x → |x| = x
+open Real
 
-#check ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε
 
-theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε :=
-  sorry
+theorem my_lemma : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε := by
+
+  intro x y ε hε_pos hε_le_one hx_lt hy_lt
+
+  -- 1. Turn strict inequalities into weak ones where needed.
+  have hx_le     : |x| ≤ ε    := le_of_lt hx_lt
+  have hy_le     : |y| ≤ ε    := le_of_lt hy_lt
+  have hε_nonneg : 0 ≤ ε      := le_of_lt hε_pos
+  have hy_nonneg : 0 ≤ |y|    := abs_nonneg y
+
+  have hxy_lt : |x| * |y| < ε * ε := by
+    by_cases h_zero : |y| = 0
+    ·
+      have h_prod : |x| * |y| = 0 := by rw [h_zero, mul_zero]
+      have hεε_pos : 0 < ε * ε := mul_pos hε_pos hε_pos
+      calc |x| * |y|
+        _ = 0 := h_prod
+        _ < ε * ε := hεε_pos
+    ·
+      have h_abs_eq : |x * y| = |x| * |y| := by rw [abs_mul]
+      have hy_pos : 0 < |y| := lt_of_le_of_ne hy_nonneg (Ne.symm h_zero)
+      calc |x * y|
+      _ = |x| * |y|   := h_abs_eq
+      _ <  ε  * |y|   := mul_lt_mul_right hx_lt hy_pos
+      _ ≤  ε  *  ε    := by rw [mul_le_mul_left hy_ly]
+      _ <  ε          := by rw [hε_le_one]
 
 section
 variable (a b δ : ℝ)
