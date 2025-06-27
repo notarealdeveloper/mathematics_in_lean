@@ -44,10 +44,7 @@ example (x : ℝ) : x ≤ x :=
 
 -- Try this.
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d) (h₃ : d < e) : a < e := by
-  let hac := lt_of_le_of_lt h₀ h₁
-  let had := lt_of_lt_of_le hac h₂
-  let hae := lt_trans had h₃
-  exact hae
+  sorry
 
 example (h₀ : a ≤ b) (h₁ : b < c) (h₂ : c ≤ d) (h₃ : d < e) : a < e := by
   linarith
@@ -89,11 +86,7 @@ example (h₀ : a ≤ b) (h₁ : c < d) : a + exp c + e < b + exp d + e := by
     apply exp_lt_exp.mpr h₁
   apply le_refl
 
-example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by
-  apply add_le_add_left
-  apply exp_le_exp.mpr
-  apply add_le_add_left
-  exact h₀
+example (h₀ : d ≤ e) : c + exp (a + d) ≤ c + exp (a + e) := by sorry
 
 example : (0 : ℝ) < 1 := by norm_num
 
@@ -131,3 +124,4 @@ example : |a*b| ≤ (a^2 + b^2)/2 := by
   sorry
 
 #check abs_le'.mpr
+
